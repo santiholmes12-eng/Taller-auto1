@@ -1,27 +1,37 @@
-<h1>Welcome to home page, {{name}}</h1>
-<h2>This is the full home page</h2>
-"
-<div class="container">
-  <h1>Buscar película</h1>
-  <form method="post">
-    {% csrf_token %}
-    <input type="text" name="searchTerm" placeholder="Buscar película">
-    <button type="submit">Buscar</button>
-  </form>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Movie Reviews</title>
+</head>
+<body>
+    <h1>Bienvenido a la página de inicio</h1>
 
-  {% if searchTerm %}
-    <h2>Resultados para "{{ searchTerm }}"</h2>
+    <h2>Buscar película</h2>
+    <form method="get">
+        <input type="text" name="searchMovie" placeholder="Buscar película" value="{{ searchTerm }}">
+        <button type="submit">Buscar</button>
+    </form>
+
+    <hr>
+
+    <h2>Resultados</h2>
     {% for movie in movies %}
-      <div class="movie-card">
-        <h3>{{ movie.title }}</h3>
-        <p>{{ movie.description }}</p>
-        <img src="{{ movie.image.url }}" alt="Imagen de {{ movie.title }}">
-        {% if movie.url %}
-          <p><a href="{{ movie.url }}">Ver más</a></p>
-        {% endif %}
-      </div>
+        <div>
+            <h3>{{ movie.title }}</h3>
+            <p>{{ movie.description }}</p>
+
+            {% if movie.image %}
+                <img src="{{ movie.image.url }}" alt="{{ movie.title }}" width="200">
+            {% endif %}
+
+            {% if movie.url %}
+                <p><a href="{{ movie.url }}" target="_blank">Más información</a></p>
+            {% endif %}
+        </div>
     {% empty %}
-      <p>No se encontraron películas con ese nombre.</p>
+        <p>No se encontraron películas.</p>
     {% endfor %}
-  {% endif %}
-</div>
+</body>
+</html>
+
